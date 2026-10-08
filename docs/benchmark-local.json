@@ -1,0 +1,42 @@
+{
+  "measuredAtUtc": "2026-10-08T04:26:26Z",
+  "clientPlatform": "macOS-26.6.2-arm64-arm-64bit",
+  "url": "http://127.0.0.1:8080",
+  "submitted": 500,
+  "succeeded": 500,
+  "failed": 0,
+  "wallSeconds": 2.784,
+  "workflowsPerSecond": 179.59,
+  "retrieval": {
+    "mode": "demo-exact-cosine",
+    "p50Ms": 0.185792,
+    "p95Ms": 0.401333,
+    "maxMs": 1.257417
+  },
+  "serviceStats": {
+    "workflows": {
+      "QUEUED": 0,
+      "RUNNING": 0,
+      "SUCCEEDED": 1001,
+      "FAILED": 0,
+      "decisions": 5005
+    },
+    "workers": {
+      "capacity": 50,
+      "peak": 48,
+      "active": 0
+    },
+    "retrieval": {
+      "meanLatencyMs": 0.23942232549019607,
+      "queries": 510,
+      "featureDimensions": 16,
+      "mode": "demo-exact-cosine"
+    }
+  },
+  "caveats": [
+    "Synthetic data; one local run, not production evidence.",
+    "Includes HTTP polling overhead.",
+    "Retrieval durations are observed under workflow concurrency.",
+    "No manual-evaluation baseline or reduction percentage measured."
+  ]
+}

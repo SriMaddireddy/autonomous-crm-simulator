@@ -1,0 +1,38 @@
+name: Build and test
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: mvn -B verify
+      - run: python3 scripts/recovery-local.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-reports
+          path: target/surefire-reports
+  postgres:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose up --build -d
+      - name: Wait for readiness
+        run: |
+          for i in $(seq 1 120); do
+            if curl -fsS http://127.0.0.1:8080/actuator/health/readiness | grep -q UP; then exit 0; fi
+            sleep 2
+          done
+          docker compose logs
+          exit 1
+      - run: python3 scripts/smoke.py --expect-mode postgres-pgvector-hnsw
+      - run: python3 scripts/recovery.py
+      - if: always()
+        run: docker compose logs && docker compose down

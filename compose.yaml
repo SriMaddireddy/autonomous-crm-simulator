@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: crm
+      POSTGRES_USER: crm
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-crm_local_demo}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crm -d crm"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  app:
+    build: .
+    ports: ["127.0.0.1:8080:8080"]
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      DATABASE_URL: jdbc:postgresql://postgres:5432/crm
+      DATABASE_USER: crm
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-crm_local_demo}
+      CRM_WORKERS: ${CRM_WORKERS:-50}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      CRM_LLM_MODEL: ${CRM_LLM_MODEL:-gpt-4o-mini}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  postgres-data:

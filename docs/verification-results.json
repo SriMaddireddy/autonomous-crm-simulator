@@ -1,0 +1,37 @@
+{
+  "measuredAtUtc": "2026-10-08T04:27:48.476830+00:00",
+  "javaTests": {
+    "tests": 18,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "httpSmoke": {
+    "status": "PASS",
+    "workflow": "03155e80-af83-4d90-b8de-67a146c2e9ce",
+    "action": "HOLD",
+    "retrievalMode": "demo-exact-cosine",
+    "skills": 5
+  },
+  "processRecovery": {
+    "status": "PASS",
+    "mode": "H2 file database",
+    "committedResultSurvivedSigkill": true,
+    "expiredClaimRecovered": true,
+    "recoveredAttempt": 2,
+    "persistedDecisions": 10,
+    "caveat": "Claimed row injected offline; not a random kill during an active model call."
+  },
+  "browser": {
+    "desktopWidth": 1280,
+    "mobileWidth": 390,
+    "horizontalOverflow": false,
+    "inspectorSkillsVerified": 5
+  },
+  "notRun": [
+    "Docker/PostgreSQL/pgvector runtime",
+    "Hosted GitHub Actions",
+    "Live paid model request"
+  ],
+  "benchmark": "benchmark-local.json"
+}

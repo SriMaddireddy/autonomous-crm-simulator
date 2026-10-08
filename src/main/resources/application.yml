@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: autonomous-crm-simulator
+  datasource:
+    url: ${DATABASE_URL:jdbc:h2:file:./data/crm;AUTO_SERVER=TRUE;WRITE_DELAY=0}
+    username: ${DATABASE_USER:sa}
+    password: ${DATABASE_PASSWORD:}
+    hikari:
+      maximum-pool-size: 20
+  sql:
+    init:
+      mode: always
+server:
+  address: ${SERVER_ADDRESS:127.0.0.1}
+  port: ${PORT:8080}
+  error:
+    include-message: never
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+crm:
+  workers: ${CRM_WORKERS:50}
+  lease-seconds: ${CRM_LEASE_SECONDS:60}
+  max-attempts: 3
+  seed-history: ${CRM_SEED_HISTORY:10000}
+  seed-campaigns: ${CRM_SEED_CAMPAIGNS:500}
+  llm-api-key: ${OPENAI_API_KEY:}
+  llm-model: ${CRM_LLM_MODEL:gpt-4o-mini}
